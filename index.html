@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torres de Hanói</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <h1>Torres de Hanói</h1>
+
+    <section class="controles">
+      <label>
+        Discos (1 a 7)
+        <input id="numDiscos" type="number" min="1" max="7" value="3">
+      </label>
+
+      <label>
+        Origem
+        <select id="origem">
+          <option value="A" selected>A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+      </label>
+
+      <label>
+        Auxiliar
+        <select id="auxiliar">
+          <option value="A">A</option>
+          <option value="B" selected>B</option>
+          <option value="C">C</option>
+        </select>
+      </label>
+
+      <label>
+        Destino
+        <select id="destino">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C" selected>C</option>
+        </select>
+      </label>
+
+      <button id="resolver">Resolver</button>
+      <button id="anterior" disabled>Anterior</button>
+      <button id="proximo" disabled>Próximo</button>
+    </section>
+
+    <p id="status">Configuração inicial</p>
+
+    <section class="torres">
+      <div class="pino" id="pinoA"><span>A</span></div>
+      <div class="pino" id="pinoB"><span>B</span></div>
+      <div class="pino" id="pinoC"><span>C</span></div>
+    </section>
+
+    <section class="historico">
+      <h2>Movimentos executados</h2>
+      <ol id="listaMovimentos"></ol>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
