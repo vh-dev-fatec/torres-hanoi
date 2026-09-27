@@ -38,9 +38,6 @@ Este projeto implementa o jogo de forma interativa, permitindo visualizar a solu
 - [x] Resolução automática com animação
 - [x] Contador de movimentos
 - [x] Exibição do número mínimo de movimentos (\(2^n - 1\))
-- [ ] Modo manual para o usuário jogar
-- [ ] Níveis de dificuldade
-- [ ] Ranking de movimentos
 
 ## 🛠️ Tecnologias
 
@@ -122,10 +119,8 @@ torres-hanoi/
 - [x] Estrutura inicial do projeto
 - [x] Implementação do algoritmo recursivo
 - [x] Visualização da solução
-- [ ] Melhorar responsividade
-- [ ] Adicionar modo manual
-- [ ] Criar testes automatizados
-- [ ] Publicar no GitHub Pages
+- [x] Melhorar responsividade
+- [x] Publicar no GitHub Pages
 
 ## 🤝 Como contribuir
 
