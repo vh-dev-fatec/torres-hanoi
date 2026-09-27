@@ -31,7 +31,11 @@ function iniciar() {
     estados = [];
     passoAtual = 0;
     hanoi(quantidade, origem, auxiliar, destino);
-    const inicial = { A: [], B: [], C: [] };
+    const inicial = {
+        A: [],
+        B: [],
+        C: [],
+    };
     for (let disco = quantidade; disco >= 1; disco--) {
         inicial[origem].push(disco);
     }
@@ -70,11 +74,13 @@ function renderizar() {
     }
     const status = document.querySelector("#status");
     if (passoAtual === 0) {
-        status.textContent = `Configuração inicial — ${movimentos.length} movimentos no total`;
+        status.textContent =
+            `Configuração inicial — ${movimentos.length} movimentos no total`;
     }
     else {
         const movimento = movimentos[passoAtual - 1];
-        status.textContent = `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
+        status.textContent =
+            `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
     }
     renderizarHistorico();
     document.querySelector("#anterior").disabled =
@@ -88,7 +94,8 @@ function renderizarHistorico() {
     for (let i = 0; i < passoAtual; i++) {
         const movimento = movimentos[i];
         const item = document.createElement("li");
-        item.textContent = `Disco ${movimento.disco}: ${movimento.origem} → ${movimento.destino}`;
+        item.textContent =
+            `Disco ${movimento.disco}: ${movimento.origem} → ${movimento.destino}`;
         lista.appendChild(item);
     }
 }
@@ -104,7 +111,19 @@ function anterior() {
         renderizar();
     }
 }
-document.querySelector("#resolver").addEventListener("click", iniciar);
+function resolverAutomaticamente() {
+    iniciar();
+    const intervalo = setInterval(() => {
+        if (passoAtual < movimentos.length) {
+            passoAtual++;
+            renderizar();
+        }
+        else {
+            clearInterval(intervalo);
+        }
+    }, 1000);
+}
+document.querySelector("#resolver").addEventListener("click", resolverAutomaticamente);
 document.querySelector("#proximo").addEventListener("click", proximo);
 document.querySelector("#anterior").addEventListener("click", anterior);
 iniciar();
