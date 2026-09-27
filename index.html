@@ -70,6 +70,55 @@
       <h2>Movimentos executados</h2>
       <ol id="listaMovimentos"></ol>
     </section>
+
+    <section class="algoritmo">
+      <h2>Como funciona o algoritmo?</h2>
+
+      <p class="algoritmo-introducao">
+        A solução utiliza recursão para dividir o problema em casos menores
+        até chegar ao caso-base, quando resta apenas um disco.
+      </p>
+
+      <pre><code>function hanoi(
+  n: number,
+  origem: Pino,
+  auxiliar: Pino,
+  destino: Pino
+): void {
+  if (n === 1) {
+    movimentos.push({ disco: 1, origem, destino });
+    return;
+  }
+
+  hanoi(n - 1, origem, destino, auxiliar);
+  movimentos.push({ disco: n, origem, destino });
+  hanoi(n - 1, auxiliar, origem, destino);
+}</code></pre>
+
+      <div class="algoritmo-explicacao">
+        <p>
+          <strong>Caso-base:</strong>
+          quando <code>n === 1</code>, o único disco é movido diretamente
+          da origem para o destino.
+        </p>
+
+        <p>
+          <strong>1ª chamada recursiva:</strong>
+          move os <code>n - 1</code> discos superiores da origem para o
+          pino auxiliar.
+        </p>
+
+        <p>
+          <strong>Movimento principal:</strong>
+          move o disco <code>n</code> da origem para o destino.
+        </p>
+
+        <p>
+          <strong>2ª chamada recursiva:</strong>
+          move os <code>n - 1</code> discos do pino auxiliar para o destino.
+        </p>
+      </div>
+    </section>
   </main>
 
   <script src="js/script.js"></script>
