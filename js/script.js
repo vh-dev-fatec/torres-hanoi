@@ -1,9 +1,8 @@
+"use strict";
 let movimentos = [];
 let estados = [];
 let passoAtual = 0;
-// Gera todos os movimentos usando recursão.
 function hanoi(n, origem, auxiliar, destino) {
-    // Caso-base: com um disco, basta movê-lo para o destino.
     if (n === 1) {
         movimentos.push({ disco: 1, origem, destino });
         return;
@@ -14,9 +13,12 @@ function hanoi(n, origem, auxiliar, destino) {
 }
 function iniciar() {
     const quantidade = Number(document.querySelector("#numDiscos").value);
-    const origem = document.querySelector("#origem").value;
-    const auxiliar = document.querySelector("#auxiliar").value;
-    const destino = document.querySelector("#destino").value;
+    const origem = document.querySelector("#origem")
+        .value;
+    const auxiliar = document.querySelector("#auxiliar")
+        .value;
+    const destino = document.querySelector("#destino")
+        .value;
     if (quantidade < 1 || quantidade > 7) {
         alert("Escolha uma quantidade de 1 a 7 discos.");
         return;
@@ -48,7 +50,7 @@ function copiarEstado(estado) {
     return {
         A: [...estado.A],
         B: [...estado.B],
-        C: [...estado.C]
+        C: [...estado.C],
     };
 }
 function renderizar() {
@@ -57,7 +59,7 @@ function renderizar() {
         return;
     for (const pino of ["A", "B", "C"]) {
         const elemento = document.querySelector(`#pino${pino}`);
-        elemento.querySelectorAll(".disco").forEach(disco => disco.remove());
+        elemento.querySelectorAll(".disco").forEach((disco) => disco.remove());
         for (const tamanho of estado[pino]) {
             const disco = document.createElement("div");
             disco.className = "disco";
@@ -75,8 +77,10 @@ function renderizar() {
         status.textContent = `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
     }
     renderizarHistorico();
-    document.querySelector("#anterior").disabled = passoAtual === 0;
-    document.querySelector("#proximo").disabled = passoAtual === movimentos.length;
+    document.querySelector("#anterior").disabled =
+        passoAtual === 0;
+    document.querySelector("#proximo").disabled =
+        passoAtual === movimentos.length;
 }
 function renderizarHistorico() {
     const lista = document.querySelector("#listaMovimentos");
