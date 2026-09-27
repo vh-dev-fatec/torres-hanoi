@@ -1,0 +1,28 @@
+{
+  "name": "torres-hanoi",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vh-dev-fatec/torres-hanoi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vh-dev-fatec/torres-hanoi/issues"
+  },
+  "homepage": "https://github.com/vh-dev-fatec/torres-hanoi#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

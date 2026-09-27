@@ -26,10 +26,15 @@ function hanoi(n: number, origem: Pino, auxiliar: Pino, destino: Pino): void {
 }
 
 function iniciar(): void {
-  const quantidade = Number((document.querySelector("#numDiscos") as HTMLInputElement).value);
-  const origem = (document.querySelector("#origem") as HTMLSelectElement).value as Pino;
-  const auxiliar = (document.querySelector("#auxiliar") as HTMLSelectElement).value as Pino;
-  const destino = (document.querySelector("#destino") as HTMLSelectElement).value as Pino;
+  const quantidade = Number(
+    (document.querySelector("#numDiscos") as HTMLInputElement).value,
+  );
+  const origem = (document.querySelector("#origem") as HTMLSelectElement)
+    .value as Pino;
+  const auxiliar = (document.querySelector("#auxiliar") as HTMLSelectElement)
+    .value as Pino;
+  const destino = (document.querySelector("#destino") as HTMLSelectElement)
+    .value as Pino;
 
   if (quantidade < 1 || quantidade > 7) {
     alert("Escolha uma quantidade de 1 a 7 discos.");
@@ -70,7 +75,7 @@ function copiarEstado(estado: Estado): Estado {
   return {
     A: [...estado.A],
     B: [...estado.B],
-    C: [...estado.C]
+    C: [...estado.C],
   };
 }
 
@@ -80,7 +85,7 @@ function renderizar(): void {
 
   for (const pino of ["A", "B", "C"] as Pino[]) {
     const elemento = document.querySelector(`#pino${pino}`) as HTMLElement;
-    elemento.querySelectorAll(".disco").forEach(disco => disco.remove());
+    elemento.querySelectorAll(".disco").forEach((disco) => disco.remove());
 
     for (const tamanho of estado[pino]) {
       const disco = document.createElement("div");
@@ -101,8 +106,10 @@ function renderizar(): void {
 
   renderizarHistorico();
 
-  (document.querySelector("#anterior") as HTMLButtonElement).disabled = passoAtual === 0;
-  (document.querySelector("#proximo") as HTMLButtonElement).disabled = passoAtual === movimentos.length;
+  (document.querySelector("#anterior") as HTMLButtonElement).disabled =
+    passoAtual === 0;
+  (document.querySelector("#proximo") as HTMLButtonElement).disabled =
+    passoAtual === movimentos.length;
 }
 
 function renderizarHistorico(): void {
@@ -131,8 +138,17 @@ function anterior(): void {
   }
 }
 
-(document.querySelector("#resolver") as HTMLButtonElement).addEventListener("click", iniciar);
-(document.querySelector("#proximo") as HTMLButtonElement).addEventListener("click", proximo);
-(document.querySelector("#anterior") as HTMLButtonElement).addEventListener("click", anterior);
+(document.querySelector("#resolver") as HTMLButtonElement).addEventListener(
+  "click",
+  iniciar,
+);
+(document.querySelector("#proximo") as HTMLButtonElement).addEventListener(
+  "click",
+  proximo,
+);
+(document.querySelector("#anterior") as HTMLButtonElement).addEventListener(
+  "click",
+  anterior,
+);
 
 iniciar();
