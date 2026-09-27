@@ -275,6 +275,85 @@ button:disabled {
   border-bottom: none;
 }
 
+/* Explicação do algoritmo */
+
+.algoritmo {
+  margin-top: 24px;
+  padding: 22px 28px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.algoritmo h2 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+}
+
+.algoritmo-introducao {
+  max-width: 720px;
+  margin: 0 auto 18px;
+
+  text-align: center;
+  line-height: 1.5;
+
+  color: #64748b;
+}
+
+.algoritmo pre {
+  max-width: 720px;
+  margin: 0 auto 18px;
+  padding: 18px 20px;
+
+  overflow-x: auto;
+
+  background: #f8fafc;
+  color: #334155;
+
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+
+  line-height: 1.5;
+}
+
+.algoritmo pre code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.88rem;
+}
+
+.algoritmo-explicacao {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.algoritmo-explicacao p {
+  margin: 8px 0;
+
+  color: #475569;
+  line-height: 1.5;
+}
+
+.algoritmo-explicacao strong {
+  color: #1e293b;
+}
+
+.algoritmo-explicacao code {
+  padding: 2px 5px;
+
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+
+  color: #1e3a8a;
+  background: #eff6ff;
+
+  border-radius: 4px;
+}
+
 /* Responsividade */
 
 @media (max-width: 700px) {
@@ -320,7 +399,12 @@ button:disabled {
     font-size: 0.75rem;
   }
 
-  .historico {
+  .historico,
+  .algoritmo {
     padding: 18px;
+  }
+
+  .algoritmo pre {
+    padding: 14px;
   }
 }
