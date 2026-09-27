@@ -2,6 +2,7 @@
 let movimentos = [];
 let estados = [];
 let passoAtual = 0;
+let intervaloAutomatico = null;
 function hanoi(n, origem, auxiliar, destino) {
     if (n === 1) {
         movimentos.push({ disco: 1, origem, destino });
@@ -11,7 +12,14 @@ function hanoi(n, origem, auxiliar, destino) {
     movimentos.push({ disco: n, origem, destino });
     hanoi(n - 1, auxiliar, origem, destino);
 }
+function pararResolucaoAutomatica() {
+    if (intervaloAutomatico !== null) {
+        clearInterval(intervaloAutomatico);
+        intervaloAutomatico = null;
+    }
+}
 function iniciar() {
+    pararResolucaoAutomatica();
     const quantidade = Number(document.querySelector("#numDiscos").value);
     const origem = document.querySelector("#origem")
         .value;
@@ -19,13 +27,13 @@ function iniciar() {
         .value;
     const destino = document.querySelector("#destino")
         .value;
-    if (quantidade < 1 || quantidade > 7) {
+    if (quantidade < 1 || quantidade > 7 || !Number.isInteger(quantidade)) {
         alert("Escolha uma quantidade de 1 a 7 discos.");
-        return;
+        return false;
     }
     if (origem === auxiliar || origem === destino || auxiliar === destino) {
         alert("Origem, auxiliar e destino devem ser diferentes.");
-        return;
+        return false;
     }
     movimentos = [];
     estados = [];
@@ -49,6 +57,7 @@ function iniciar() {
         estados.push(copiarEstado(atual));
     }
     renderizar();
+    return true;
 }
 function copiarEstado(estado) {
     return {
@@ -100,30 +109,47 @@ function renderizarHistorico() {
     }
 }
 function proximo() {
+    pararResolucaoAutomatica();
     if (passoAtual < movimentos.length) {
         passoAtual++;
         renderizar();
     }
 }
 function anterior() {
+    pararResolucaoAutomatica();
     if (passoAtual > 0) {
         passoAtual--;
         renderizar();
     }
 }
+function resetar() {
+    pararResolucaoAutomatica();
+    passoAtual = 0;
+    renderizar();
+}
 function resolverAutomaticamente() {
-    iniciar();
-    const intervalo = setInterval(() => {
+    if (!iniciar()) {
+        return;
+    }
+    intervaloAutomatico = setInterval(() => {
         if (passoAtual < movimentos.length) {
             passoAtual++;
             renderizar();
         }
         else {
-            clearInterval(intervalo);
+            pararResolucaoAutomatica();
         }
     }, 1000);
 }
+function atualizarConfiguracao() {
+    iniciar();
+}
 document.querySelector("#resolver").addEventListener("click", resolverAutomaticamente);
+document.querySelector("#reset").addEventListener("click", resetar);
 document.querySelector("#proximo").addEventListener("click", proximo);
 document.querySelector("#anterior").addEventListener("click", anterior);
+document.querySelector("#numDiscos").addEventListener("input", atualizarConfiguracao);
+document.querySelector("#origem").addEventListener("change", atualizarConfiguracao);
+document.querySelector("#auxiliar").addEventListener("change", atualizarConfiguracao);
+document.querySelector("#destino").addEventListener("change", atualizarConfiguracao);
 iniciar();
