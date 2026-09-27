@@ -11,6 +11,7 @@ type Estado = Record<Pino, number[]>;
 let movimentos: Movimento[] = [];
 let estados: Estado[] = [];
 let passoAtual = 0;
+let intervaloAutomatico: ReturnType<typeof setInterval> | null = null;
 
 // Gera todos os movimentos usando recursão.
 function hanoi(n: number, origem: Pino, auxiliar: Pino, destino: Pino): void {
@@ -25,7 +26,18 @@ function hanoi(n: number, origem: Pino, auxiliar: Pino, destino: Pino): void {
   hanoi(n - 1, auxiliar, origem, destino);
 }
 
-function iniciar(): void {
+// Interrompe a resolução automática, caso esteja em execução.
+function pararResolucaoAutomatica(): void {
+  if (intervaloAutomatico !== null) {
+    clearInterval(intervaloAutomatico);
+    intervaloAutomatico = null;
+  }
+}
+
+// Lê os controles e monta novamente todos os estados da solução.
+function iniciar(): boolean {
+  pararResolucaoAutomatica();
+
   const quantidade = Number(
     (document.querySelector("#numDiscos") as HTMLInputElement).value,
   );
@@ -39,14 +51,14 @@ function iniciar(): void {
   const destino = (document.querySelector("#destino") as HTMLSelectElement)
     .value as Pino;
 
-  if (quantidade < 1 || quantidade > 7) {
+  if (quantidade < 1 || quantidade > 7 || !Number.isInteger(quantidade)) {
     alert("Escolha uma quantidade de 1 a 7 discos.");
-    return;
+    return false;
   }
 
   if (origem === auxiliar || origem === destino || auxiliar === destino) {
     alert("Origem, auxiliar e destino devem ser diferentes.");
-    return;
+    return false;
   }
 
   movimentos = [];
@@ -80,6 +92,8 @@ function iniciar(): void {
   }
 
   renderizar();
+
+  return true;
 }
 
 function copiarEstado(estado: Estado): Estado {
@@ -148,36 +162,62 @@ function renderizarHistorico(): void {
   }
 }
 
+// Avança manualmente um movimento.
 function proximo(): void {
+  pararResolucaoAutomatica();
+
   if (passoAtual < movimentos.length) {
     passoAtual++;
     renderizar();
   }
 }
 
+// Volta manualmente um movimento.
 function anterior(): void {
+  pararResolucaoAutomatica();
+
   if (passoAtual > 0) {
     passoAtual--;
     renderizar();
   }
 }
 
-function resolverAutomaticamente(): void {
-  iniciar();
+// Volta para a configuração inicial mantendo as opções selecionadas.
+function resetar(): void {
+  pararResolucaoAutomatica();
+  passoAtual = 0;
+  renderizar();
+}
 
-  const intervalo = setInterval(() => {
+// Reinicia o problema e executa um movimento por segundo.
+function resolverAutomaticamente(): void {
+  if (!iniciar()) {
+    return;
+  }
+
+  intervaloAutomatico = setInterval(() => {
     if (passoAtual < movimentos.length) {
       passoAtual++;
       renderizar();
     } else {
-      clearInterval(intervalo);
+      pararResolucaoAutomatica();
     }
   }, 1000);
+}
+
+// Qualquer alteração nos dados reinicia imediatamente a configuração.
+function atualizarConfiguracao(): void {
+  iniciar();
 }
 
 (document.querySelector("#resolver") as HTMLButtonElement).addEventListener(
   "click",
   resolverAutomaticamente,
+);
+
+(document.querySelector("#reset") as HTMLButtonElement).addEventListener(
+  "click",
+  resetar,
 );
 
 (document.querySelector("#proximo") as HTMLButtonElement).addEventListener(
@@ -188,6 +228,26 @@ function resolverAutomaticamente(): void {
 (document.querySelector("#anterior") as HTMLButtonElement).addEventListener(
   "click",
   anterior,
+);
+
+(document.querySelector("#numDiscos") as HTMLInputElement).addEventListener(
+  "input",
+  atualizarConfiguracao,
+);
+
+(document.querySelector("#origem") as HTMLSelectElement).addEventListener(
+  "change",
+  atualizarConfiguracao,
+);
+
+(document.querySelector("#auxiliar") as HTMLSelectElement).addEventListener(
+  "change",
+  atualizarConfiguracao,
+);
+
+(document.querySelector("#destino") as HTMLSelectElement).addEventListener(
+  "change",
+  atualizarConfiguracao,
 );
 
 iniciar();
