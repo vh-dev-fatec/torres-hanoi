@@ -146,10 +146,8 @@ torres-hanoi/
 
 ## 👥 Autores
 
-- [Vitor Hugo](https://github.com/vh-dev-fatec) – desenvolvimento
-- [Nome do colega](https://github.com/usuario) – desenvolvimento
-
-> Ajuste os nomes e links conforme a equipe.
+- [Vinicius Augusto](https://github.com/viniciusaugusto1997) – desenvolvimento
+- [Henrique Camargo](https://github.com/henriqueptbd-cell) – desenvolvimento
 
 ## 📄 Licença
 
