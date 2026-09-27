@@ -29,10 +29,13 @@ function iniciar(): void {
   const quantidade = Number(
     (document.querySelector("#numDiscos") as HTMLInputElement).value,
   );
+
   const origem = (document.querySelector("#origem") as HTMLSelectElement)
     .value as Pino;
+
   const auxiliar = (document.querySelector("#auxiliar") as HTMLSelectElement)
     .value as Pino;
+
   const destino = (document.querySelector("#destino") as HTMLSelectElement)
     .value as Pino;
 
@@ -52,7 +55,12 @@ function iniciar(): void {
 
   hanoi(quantidade, origem, auxiliar, destino);
 
-  const inicial: Estado = { A: [], B: [], C: [] };
+  const inicial: Estado = {
+    A: [],
+    B: [],
+    C: [],
+  };
+
   for (let disco = quantidade; disco >= 1; disco--) {
     inicial[origem].push(disco);
   }
@@ -60,11 +68,14 @@ function iniciar(): void {
   estados.push(copiarEstado(inicial));
 
   const atual = copiarEstado(inicial);
+
   for (const movimento of movimentos) {
     const disco = atual[movimento.origem].pop();
+
     if (disco !== undefined) {
       atual[movimento.destino].push(disco);
     }
+
     estados.push(copiarEstado(atual));
   }
 
@@ -81,45 +92,58 @@ function copiarEstado(estado: Estado): Estado {
 
 function renderizar(): void {
   const estado = estados[passoAtual];
+
   if (!estado) return;
 
   for (const pino of ["A", "B", "C"] as Pino[]) {
     const elemento = document.querySelector(`#pino${pino}`) as HTMLElement;
+
     elemento.querySelectorAll(".disco").forEach((disco) => disco.remove());
 
     for (const tamanho of estado[pino]) {
       const disco = document.createElement("div");
+
       disco.className = "disco";
       disco.textContent = String(tamanho);
       disco.style.width = `${25 + tamanho * 9}%`;
+
       elemento.appendChild(disco);
     }
   }
 
   const status = document.querySelector("#status") as HTMLElement;
+
   if (passoAtual === 0) {
-    status.textContent = `Configuração inicial — ${movimentos.length} movimentos no total`;
+    status.textContent =
+      `Configuração inicial — ${movimentos.length} movimentos no total`;
   } else {
     const movimento = movimentos[passoAtual - 1];
-    status.textContent = `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
+
+    status.textContent =
+      `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
   }
 
   renderizarHistorico();
 
   (document.querySelector("#anterior") as HTMLButtonElement).disabled =
     passoAtual === 0;
+
   (document.querySelector("#proximo") as HTMLButtonElement).disabled =
     passoAtual === movimentos.length;
 }
 
 function renderizarHistorico(): void {
   const lista = document.querySelector("#listaMovimentos") as HTMLOListElement;
+
   lista.innerHTML = "";
 
   for (let i = 0; i < passoAtual; i++) {
     const movimento = movimentos[i];
     const item = document.createElement("li");
-    item.textContent = `Disco ${movimento.disco}: ${movimento.origem} → ${movimento.destino}`;
+
+    item.textContent =
+      `Disco ${movimento.disco}: ${movimento.origem} → ${movimento.destino}`;
+
     lista.appendChild(item);
   }
 }
@@ -138,14 +162,29 @@ function anterior(): void {
   }
 }
 
+function resolverAutomaticamente(): void {
+  iniciar();
+
+  const intervalo = setInterval(() => {
+    if (passoAtual < movimentos.length) {
+      passoAtual++;
+      renderizar();
+    } else {
+      clearInterval(intervalo);
+    }
+  }, 1000);
+}
+
 (document.querySelector("#resolver") as HTMLButtonElement).addEventListener(
   "click",
-  iniciar,
+  resolverAutomaticamente,
 );
+
 (document.querySelector("#proximo") as HTMLButtonElement).addEventListener(
   "click",
   proximo,
 );
+
 (document.querySelector("#anterior") as HTMLButtonElement).addEventListener(
   "click",
   anterior,
