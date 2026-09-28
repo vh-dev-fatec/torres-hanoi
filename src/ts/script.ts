@@ -8,6 +8,23 @@ type Movimento = {
 
 type Estado = Record<Pino, number[]>;
 
+const pinos: Pino[] = ["A", "B", "C"];
+
+const inputDiscos = document.querySelector("#numDiscos") as HTMLInputElement;
+const selectOrigem = document.querySelector("#origem") as HTMLSelectElement;
+const selectAuxiliar = document.querySelector("#auxiliar") as HTMLSelectElement;
+const selectDestino = document.querySelector("#destino") as HTMLSelectElement;
+
+const botaoResolver = document.querySelector("#resolver") as HTMLButtonElement;
+const botaoReset = document.querySelector("#reset") as HTMLButtonElement;
+const botaoAnterior = document.querySelector("#anterior") as HTMLButtonElement;
+const botaoProximo = document.querySelector("#proximo") as HTMLButtonElement;
+
+const statusExecucao = document.querySelector("#status") as HTMLElement;
+const listaMovimentos = document.querySelector(
+  "#listaMovimentos",
+) as HTMLOListElement;
+
 let movimentos: Movimento[] = [];
 let estados: Estado[] = [];
 let passoAtual = 0;
@@ -38,18 +55,10 @@ function pararResolucaoAutomatica(): void {
 function iniciar(): boolean {
   pararResolucaoAutomatica();
 
-  const quantidade = Number(
-    (document.querySelector("#numDiscos") as HTMLInputElement).value,
-  );
-
-  const origem = (document.querySelector("#origem") as HTMLSelectElement)
-    .value as Pino;
-
-  const auxiliar = (document.querySelector("#auxiliar") as HTMLSelectElement)
-    .value as Pino;
-
-  const destino = (document.querySelector("#destino") as HTMLSelectElement)
-    .value as Pino;
+  const quantidade = Number(inputDiscos.value);
+  const origem = selectOrigem.value as Pino;
+  const auxiliar = selectAuxiliar.value as Pino;
+  const destino = selectDestino.value as Pino;
 
   if (quantidade < 1 || quantidade > 7 || !Number.isInteger(quantidade)) {
     alert("Escolha uma quantidade de 1 a 7 discos.");
@@ -109,7 +118,7 @@ function renderizar(): void {
 
   if (!estado) return;
 
-  for (const pino of ["A", "B", "C"] as Pino[]) {
+  for (const pino of pinos) {
     const elemento = document.querySelector(`#pino${pino}`) as HTMLElement;
 
     elemento.querySelectorAll(".disco").forEach((disco) => disco.remove());
@@ -125,31 +134,24 @@ function renderizar(): void {
     }
   }
 
-  const status = document.querySelector("#status") as HTMLElement;
-
   if (passoAtual === 0) {
-    status.textContent =
+    statusExecucao.textContent =
       `Configuração inicial — ${movimentos.length} movimentos no total`;
   } else {
     const movimento = movimentos[passoAtual - 1];
 
-    status.textContent =
+    statusExecucao.textContent =
       `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
   }
 
   renderizarHistorico();
 
-  (document.querySelector("#anterior") as HTMLButtonElement).disabled =
-    passoAtual === 0;
-
-  (document.querySelector("#proximo") as HTMLButtonElement).disabled =
-    passoAtual === movimentos.length;
+  botaoAnterior.disabled = passoAtual === 0;
+  botaoProximo.disabled = passoAtual === movimentos.length;
 }
 
 function renderizarHistorico(): void {
-  const lista = document.querySelector("#listaMovimentos") as HTMLOListElement;
-
-  lista.innerHTML = "";
+  listaMovimentos.innerHTML = "";
 
   for (let i = 0; i < passoAtual; i++) {
     const movimento = movimentos[i];
@@ -158,7 +160,7 @@ function renderizarHistorico(): void {
     item.textContent =
       `Disco ${movimento.disco}: ${movimento.origem} → ${movimento.destino}`;
 
-    lista.appendChild(item);
+    listaMovimentos.appendChild(item);
   }
 }
 
@@ -210,44 +212,14 @@ function atualizarConfiguracao(): void {
   iniciar();
 }
 
-(document.querySelector("#resolver") as HTMLButtonElement).addEventListener(
-  "click",
-  resolverAutomaticamente,
-);
+botaoResolver.addEventListener("click", resolverAutomaticamente);
+botaoReset.addEventListener("click", resetar);
+botaoProximo.addEventListener("click", proximo);
+botaoAnterior.addEventListener("click", anterior);
 
-(document.querySelector("#reset") as HTMLButtonElement).addEventListener(
-  "click",
-  resetar,
-);
-
-(document.querySelector("#proximo") as HTMLButtonElement).addEventListener(
-  "click",
-  proximo,
-);
-
-(document.querySelector("#anterior") as HTMLButtonElement).addEventListener(
-  "click",
-  anterior,
-);
-
-(document.querySelector("#numDiscos") as HTMLInputElement).addEventListener(
-  "input",
-  atualizarConfiguracao,
-);
-
-(document.querySelector("#origem") as HTMLSelectElement).addEventListener(
-  "change",
-  atualizarConfiguracao,
-);
-
-(document.querySelector("#auxiliar") as HTMLSelectElement).addEventListener(
-  "change",
-  atualizarConfiguracao,
-);
-
-(document.querySelector("#destino") as HTMLSelectElement).addEventListener(
-  "change",
-  atualizarConfiguracao,
-);
+inputDiscos.addEventListener("input", atualizarConfiguracao);
+selectOrigem.addEventListener("change", atualizarConfiguracao);
+selectAuxiliar.addEventListener("change", atualizarConfiguracao);
+selectDestino.addEventListener("change", atualizarConfiguracao);
 
 iniciar();

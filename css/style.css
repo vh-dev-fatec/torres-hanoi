@@ -30,6 +30,17 @@ h2 {
   color: #0f172a;
 }
 
+/* Cards */
+
+.controles,
+.historico,
+.algoritmo {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
 /* Painel de controles */
 
 .controles {
@@ -38,14 +49,7 @@ h2 {
   justify-content: center;
   align-items: flex-end;
   gap: 14px;
-
   padding: 22px;
-
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
 }
 
 label {
@@ -241,13 +245,6 @@ button:disabled {
 .historico {
   margin-top: 24px;
   padding: 22px 28px;
-
-  background: #ffffff;
-
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
 }
 
 .historico h2 {
@@ -280,13 +277,6 @@ button:disabled {
 .algoritmo {
   margin-top: 24px;
   padding: 22px 28px;
-
-  background: #ffffff;
-
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
 }
 
 .algoritmo h2 {

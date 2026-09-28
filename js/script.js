@@ -1,4 +1,15 @@
 "use strict";
+const pinos = ["A", "B", "C"];
+const inputDiscos = document.querySelector("#numDiscos");
+const selectOrigem = document.querySelector("#origem");
+const selectAuxiliar = document.querySelector("#auxiliar");
+const selectDestino = document.querySelector("#destino");
+const botaoResolver = document.querySelector("#resolver");
+const botaoReset = document.querySelector("#reset");
+const botaoAnterior = document.querySelector("#anterior");
+const botaoProximo = document.querySelector("#proximo");
+const statusExecucao = document.querySelector("#status");
+const listaMovimentos = document.querySelector("#listaMovimentos");
 let movimentos = [];
 let estados = [];
 let passoAtual = 0;
@@ -20,13 +31,10 @@ function pararResolucaoAutomatica() {
 }
 function iniciar() {
     pararResolucaoAutomatica();
-    const quantidade = Number(document.querySelector("#numDiscos").value);
-    const origem = document.querySelector("#origem")
-        .value;
-    const auxiliar = document.querySelector("#auxiliar")
-        .value;
-    const destino = document.querySelector("#destino")
-        .value;
+    const quantidade = Number(inputDiscos.value);
+    const origem = selectOrigem.value;
+    const auxiliar = selectAuxiliar.value;
+    const destino = selectDestino.value;
     if (quantidade < 1 || quantidade > 7 || !Number.isInteger(quantidade)) {
         alert("Escolha uma quantidade de 1 a 7 discos.");
         return false;
@@ -70,7 +78,7 @@ function renderizar() {
     const estado = estados[passoAtual];
     if (!estado)
         return;
-    for (const pino of ["A", "B", "C"]) {
+    for (const pino of pinos) {
         const elemento = document.querySelector(`#pino${pino}`);
         elemento.querySelectorAll(".disco").forEach((disco) => disco.remove());
         for (const tamanho of estado[pino]) {
@@ -81,31 +89,27 @@ function renderizar() {
             elemento.appendChild(disco);
         }
     }
-    const status = document.querySelector("#status");
     if (passoAtual === 0) {
-        status.textContent =
+        statusExecucao.textContent =
             `Configuração inicial — ${movimentos.length} movimentos no total`;
     }
     else {
         const movimento = movimentos[passoAtual - 1];
-        status.textContent =
+        statusExecucao.textContent =
             `Passo ${passoAtual} de ${movimentos.length}: mover disco ${movimento.disco} de ${movimento.origem} para ${movimento.destino}`;
     }
     renderizarHistorico();
-    document.querySelector("#anterior").disabled =
-        passoAtual === 0;
-    document.querySelector("#proximo").disabled =
-        passoAtual === movimentos.length;
+    botaoAnterior.disabled = passoAtual === 0;
+    botaoProximo.disabled = passoAtual === movimentos.length;
 }
 function renderizarHistorico() {
-    const lista = document.querySelector("#listaMovimentos");
-    lista.innerHTML = "";
+    listaMovimentos.innerHTML = "";
     for (let i = 0; i < passoAtual; i++) {
         const movimento = movimentos[i];
         const item = document.createElement("li");
         item.textContent =
             `Disco ${movimento.disco}: ${movimento.origem} → ${movimento.destino}`;
-        lista.appendChild(item);
+        listaMovimentos.appendChild(item);
     }
 }
 function proximo() {
@@ -144,12 +148,12 @@ function resolverAutomaticamente() {
 function atualizarConfiguracao() {
     iniciar();
 }
-document.querySelector("#resolver").addEventListener("click", resolverAutomaticamente);
-document.querySelector("#reset").addEventListener("click", resetar);
-document.querySelector("#proximo").addEventListener("click", proximo);
-document.querySelector("#anterior").addEventListener("click", anterior);
-document.querySelector("#numDiscos").addEventListener("input", atualizarConfiguracao);
-document.querySelector("#origem").addEventListener("change", atualizarConfiguracao);
-document.querySelector("#auxiliar").addEventListener("change", atualizarConfiguracao);
-document.querySelector("#destino").addEventListener("change", atualizarConfiguracao);
+botaoResolver.addEventListener("click", resolverAutomaticamente);
+botaoReset.addEventListener("click", resetar);
+botaoProximo.addEventListener("click", proximo);
+botaoAnterior.addEventListener("click", anterior);
+inputDiscos.addEventListener("input", atualizarConfiguracao);
+selectOrigem.addEventListener("change", atualizarConfiguracao);
+selectAuxiliar.addEventListener("change", atualizarConfiguracao);
+selectDestino.addEventListener("change", atualizarConfiguracao);
 iniciar();
