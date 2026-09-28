@@ -354,6 +354,40 @@ button:disabled {
   border-radius: 4px;
 }
 
+/* Rodapé */
+
+.rodape {
+  margin: 32px auto 24px;
+  padding: 20px;
+
+  text-align: center;
+
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+.rodape p {
+  margin: 4px 0;
+}
+
+.rodape p:first-child {
+  color: #334155;
+  font-weight: 600;
+}
+
+.rodape a {
+  display: inline-block;
+  margin-top: 6px;
+
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.rodape a:hover {
+  text-decoration: underline;
+}
+
 /* Responsividade */
 
 @media (max-width: 700px) {
@@ -406,5 +440,10 @@ button:disabled {
 
   .algoritmo pre {
     padding: 14px;
+  }
+
+  .rodape {
+    margin-top: 24px;
+    padding: 16px;
   }
 }
